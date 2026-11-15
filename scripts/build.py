@@ -208,7 +208,7 @@ def plan_channel(ch, cfg, shows, movies, base=None):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default="channels.json")
-    ap.add_argument("--tunarr", default="http://127.0.0.1:8000")
+    ap.add_argument("--tunarr", default=os.environ.get("TUNARR_URL", "http://127.0.0.1:8000"))
     ap.add_argument("--only")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--settings-only", action="store_true", help="update channel fields, keep lineup")

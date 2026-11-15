@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Audit live Tunarr lineups: airtime share per show, back-to-back repeats,
 half-hour start alignment, filler share. usage: audit.py [--only N,..] [--first-days D]"""
-import argparse, collections, datetime, json, sys, urllib.request
+import argparse, collections, datetime, json, sys, urllib.request, os
 
-B = "http://127.0.0.1:8000"
+B = os.environ.get("TUNARR_URL", "http://127.0.0.1:8000")
 get = lambda p: json.load(urllib.request.urlopen(B + p, timeout=300))
 
 

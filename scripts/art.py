@@ -4,12 +4,12 @@ on-screen badge (300px tall, number + name, trimmed to text) in the house style.
 
 usage: art.py <number> <slug> "<TILE WORD(S), | for line break>" "<BADGE NAME>" <bg #hex> [<fg #hex>] [--upload]
 """
-import json, subprocess, sys
+import json, subprocess, sys, os
 from PIL import Image, ImageDraw, ImageFont
 
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-OUT = "/home/gndl00p/code/house-tv/art"
-TUNARR = "http://127.0.0.1:8000"
+OUT = os.environ.get("HOUSE_TV_ART", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "art"))
+TUNARR = os.environ.get("TUNARR_URL", "http://127.0.0.1:8000")
 
 
 def fit(draw, text, size, max_w):

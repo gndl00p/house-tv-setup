@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """House TV art v2: icon guide tiles, pill badges, and 12 s animated station IDs (sunburst, icon pop,
-name slide, per-channel jingle). usage: ~/code/ai/claude-voice/.venv/bin/python art2.py [--only N,..] [--no-ids]
+name slide, per-channel jingle). usage: python art2.py [--only N,..] [--no-ids]
 Outputs to art/v4/: ch-N-slug-v4.png (tile), bug-N-slug-v4.png (badge), id-N-slug-{chime,voice}-v4.mp4
 """
 import argparse, math, os, subprocess, sys, tempfile
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
-ROOT = "/home/gndl00p/code/house-tv/art"
+ROOT = os.environ.get("HOUSE_TV_ART", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "art"))
 OUT = f"{ROOT}/v4"
 BUNGEE = f"{ROOT}/src/fonts/Bungee-Regular.ttf"
 FPS, SECS = 30, 12
@@ -194,8 +194,8 @@ def main():
         if tts is None:
             import soundfile as sf
             from kokoro_onnx import Kokoro
-            tts = Kokoro("/home/gndl00p/code/ai/claude-voice/models/kokoro-v1.0.onnx",
-                         "/home/gndl00p/code/ai/claude-voice/models/voices-v1.0.bin")
+            models = os.environ.get("KOKORO_MODELS", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "models"))
+            tts = Kokoro(f"{models}/kokoro-v1.0.onnx", f"{models}/voices-v1.0.bin")
         slug, _, spoken, *_ , root = CHANNELS[n]
         with tempfile.TemporaryDirectory() as tmp:
             raw = f"{tmp}/v.raw"; ident_frames(n, raw)

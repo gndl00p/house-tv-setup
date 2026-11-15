@@ -1,5 +1,5 @@
-import json, sys, time, urllib.request
-B = "http://127.0.0.1:8000/api/channels"
+import json, sys, time, urllib.request, os
+B = os.environ.get("TUNARR_URL", "http://127.0.0.1:8000") + "/api/channels"
 enable = sys.argv[1] == "on"
 backup = {}
 for c in json.load(urllib.request.urlopen(B, timeout=10)):
@@ -19,4 +19,4 @@ for c in json.load(urllib.request.urlopen(B, timeout=10)):
     r = urllib.request.urlopen(req, timeout=30)
     after = json.load(urllib.request.urlopen(f"{B}/{c['id']}", timeout=10))
     print(c['number'], r.status, f"{time.time()-t:.2f}s", "wm", (after.get('watermark') or {}).get('enabled'), "dur_same", after['duration'] == dur, flush=True)
-json.dump(backup, open(f"/home/gndl00p/code/_inbox/house-tv/wm-backup-{int(time.time())}.json", "w"), indent=1)
+json.dump(backup, open(f"wm-backup-{int(time.time())}.json", "w"), indent=1)

@@ -14,7 +14,7 @@ from zoneinfo import ZoneInfo
 CENTRAL = ZoneInfo(os.environ.get("HOUSE_TZ", "America/Chicago"))
 
 PORT = 8001
-TUNARR = "http://127.0.0.1:8000"
+TUNARR = os.environ.get("TUNARR_URL", "http://127.0.0.1:8000")
 TUNARR_PUBLIC = os.environ.get("TUNARR_PUBLIC", "http://127.0.0.1:8000")
 WEATHER_HLS = "http://127.0.0.1:9798/stream/stream.m3u8"
 WEATHER_NUMBER, WEATHER_NAME = 14, "The Weather"

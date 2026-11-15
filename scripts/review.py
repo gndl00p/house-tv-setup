@@ -5,7 +5,7 @@ import os
 import argparse, collections, datetime, json, time, urllib.request
 from zoneinfo import ZoneInfo
 
-B = "http://127.0.0.1:8000"
+B = os.environ.get("TUNARR_URL", "http://127.0.0.1:8000")
 CT = ZoneInfo(os.environ.get("HOUSE_TZ", "America/Chicago"))
 get = lambda p: json.load(urllib.request.urlopen(B + p, timeout=300))
 

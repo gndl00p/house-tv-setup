@@ -56,6 +56,19 @@ The names are rooms, not genres. `channels.example.json` is a four-channel start
 
 Show and movie titles have to match Plex exactly.
 
+## Still hardwired to this house
+
+Most settings live in `house.env` and `channels.json`. These don't yet, so grep for them if your lineup differs:
+
+| What | Where |
+|---|---|
+| Auto-filing rules (rating/genre to channel, plus a Star Trek and a VeggieTales special case) | `assign_show`, `assign_movie` in `scripts/nightly.py` |
+| Jukebox = 13, Weather = 14, Stage = 15 | `scripts/jukebox.py`, `service/housetv.py`, `scripts/review.py`, `weather/docker-compose.yml` |
+| Channel colors, names, icons for art and station IDs | `CHANNELS` in `scripts/art2.py`, `scripts/idents.py`; `COLORS` in `service/housetv.py`; `SLUG` in `scripts/badge.py` |
+| Library names `TV Shows`, `Movies`, `Jukebox`, `Music Videos Concerts` | `scripts/build.py`, `scripts/jukebox.py`, `service/plexdvr.py` |
+| Filler shows (Bluey, Tom and Jerry, ...) and commercial folder patterns | `scripts/interstitials.py`, `scripts/pools.py` |
+| Install path `/opt/house-tv` | `service/*.service`, `service/guide_refresh.sh`, `weather/setup.sh` |
+
 ## Start here
 
 - [docs/REPLICATE.md](docs/REPLICATE.md) is the build guide

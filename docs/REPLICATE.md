@@ -159,7 +159,7 @@ Breaks are three minutes of Tunarr filler (`flex` items). With `"filler": "none"
 3. Put the collection ids in `pools` in `channels.json`
 4. Set a channel's `filler` to weights, for example `{ "prime": 75, "cartoon": 25 }`
 
-`scripts/pools.py` and `scripts/idents.py` are the tools that did this on the original server. They talk to `http://127.0.0.1:8000`. `ident_lists` attaches a short chime (about every 15 minutes) and a voiced station ID (about hourly) as extra filler.
+`scripts/pools.py` and `scripts/idents.py` are the tools that did this on the original server. They talk to `TUNARR_URL` (default `http://127.0.0.1:8000`); `pools.py` also needs `COMMERCIAL_LISTS` set. `ident_lists` attaches a short chime (about every 15 minutes) and a voiced station ID (about hourly) as extra filler.
 
 Badges are PNGs uploaded to Tunarr (`scripts/badge.py`, `scripts/art.py`). A new channel looks for `http://<tunarr>/images/uploads/ch-<number>-<slug>-v4.png`.
 

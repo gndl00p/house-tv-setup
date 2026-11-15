@@ -7,3 +7,7 @@ state.json
 house.env
 weather/ws4kp/
 weather/music/
+art/
+models/
+jukebox/cache/
+wm-backup-*.json

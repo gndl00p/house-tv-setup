@@ -73,7 +73,7 @@ class Picker:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "channels.json"))
-    ap.add_argument("--tunarr", default="http://127.0.0.1:8000")
+    ap.add_argument("--tunarr", default=os.environ.get("TUNARR_URL", "http://127.0.0.1:8000"))
     ap.add_argument("--only"); ap.add_argument("--dry-run", action="store_true"); ap.add_argument("--force", action="store_true")
     ap.add_argument("--no-guide", action="store_true", help="skip the guide refresh (nightly does one at the end)")
     a = ap.parse_args()

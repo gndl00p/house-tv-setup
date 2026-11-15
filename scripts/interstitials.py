@@ -9,7 +9,7 @@ import json, re, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from build import api, ensure_custom_show  # noqa: F401  (api reused)
 
-B = "http://127.0.0.1:8000"
+B = os.environ.get("TUNARR_URL", "http://127.0.0.1:8000")
 TODDLER = {"Bluey (2018)"}
 CARTOON = {"Tom and Jerry", "SpongeBob SquarePants", "Animaniacs", "Pinky and the Brain", "Dexter's Laboratory"}
 

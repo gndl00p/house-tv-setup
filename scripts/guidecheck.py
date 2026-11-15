@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Compare what each channel is actually airing now (Tunarr lineup) with the guide entry the
 house-tv proxy (and therefore Plex) shows for this moment. usage: guidecheck.py"""
-import datetime, json, re, time, urllib.request
+import datetime, json, re, time, urllib.request, os
 import xml.etree.ElementTree as ET
 
-B = "http://127.0.0.1:8000"
+B = os.environ.get("TUNARR_URL", "http://127.0.0.1:8000")
 get = lambda p: json.load(urllib.request.urlopen(B + p, timeout=300))
 
 

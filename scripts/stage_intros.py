@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Render The Stage's block intro cards (5 s, yellow Stage card, voiced "Up next ...").
-usage: ~/code/ai/claude-voice/.venv/bin/python stage_intros.py"""
+usage: python stage_intros.py   (same deps as idents.py)"""
 import os, subprocess, sys, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from idents import card, chime, MODELS, OUT

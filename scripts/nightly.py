@@ -19,14 +19,15 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from build import api, catalogue, load_config, season  # noqa: E402
 
-TUNARR = "http://127.0.0.1:8000"
+ROOT = os.path.normpath(os.path.join(HERE, ".."))
+TUNARR = os.environ.get("TUNARR_URL", "http://127.0.0.1:8000")
 CONFIG = os.path.join(HERE, "channels.json")
 if not os.path.exists(CONFIG):
     _root = os.path.normpath(os.path.join(HERE, "..", "channels.json"))
     if os.path.exists(_root):
         CONFIG = _root
-ASSIGN = os.path.join(HERE, "assignments.json")
-STATE = os.path.join(HERE, "state.json")
+ASSIGN = os.path.join(os.path.dirname(CONFIG), "assignments.json")
+STATE = os.path.join(os.path.dirname(CONFIG), "state.json")
 CENTRAL = ZoneInfo(os.environ.get("HOUSE_TZ", "America/Chicago"))
 KID_TV = {"TV-Y": 3, "TV-Y7": 2}
 DRAMA = {"Drama", "Crime", "Thriller", "Mystery", "Western", "Science Fiction"}
@@ -146,11 +147,11 @@ def fingerprints(cfg, shows, movies):
 def weather_music(month):
     """WeatherStar plays the holiday jazz set in December, the regular set otherwise."""
     target = "holiday" if month == 12 else "regular"
-    link = "/opt/house-tv/weather/music/active"
-    if os.path.realpath(link) != os.path.realpath(f"/opt/house-tv/weather/music/{target}"):
+    link = f"{ROOT}/weather/music/active"
+    if os.path.realpath(link) != os.path.realpath(f"{ROOT}/weather/music/{target}"):
         tmp = link + ".new"
         os.symlink(target, tmp); os.replace(tmp, link)
-        r = subprocess.run(["docker", "compose", "-f", "/opt/house-tv/weather/docker-compose.yml", "up", "-d",
+        r = subprocess.run(["docker", "compose", "-f", f"{ROOT}/weather/docker-compose.yml", "up", "-d",
                             "--force-recreate", "ws4channels"], capture_output=True, text=True)
         log("weather music ->", target, r.returncode)
 
@@ -174,9 +175,9 @@ def main():
     failed = False
     if not a.no_scan and not a.dry_run and not a.seed:
         # render any new songs into jukebox videos, let Plex analyze new music files, then rescan Tunarr
-        r = subprocess.run([sys.executable, "/opt/house-tv/jukebox/render.py", "--workers", "3"], capture_output=True, text=True)
+        r = subprocess.run([sys.executable, f"{ROOT}/jukebox/render.py", "--workers", "3"], capture_output=True, text=True)
         log("render:", (r.stdout.strip().splitlines() or ["?"])[-1])
-        r = subprocess.run([sys.executable, "/opt/house-tv/service/plexdvr.py", "analyze"], capture_output=True, text=True)
+        r = subprocess.run([sys.executable, f"{ROOT}/service/plexdvr.py", "analyze"], capture_output=True, text=True)
         log("plex analyze:", " ".join((r.stdout + r.stderr).split()))
         time.sleep(600)       # give Plex time to analyze before Tunarr reads durations
         scan_libraries()

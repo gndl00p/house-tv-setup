@@ -5,10 +5,11 @@ usage: pools.py [--dry-run]   (creates or replaces the lists; prints their ids f
 Pools: preschool (Nick Jr, Disney, toy ads), cartoon (Nick, Fox Kids, Kids WB, CN, toys),
 movienight (ABC Monday Movie + NBC prime), prime keeps the existing "Prime breaks" list.
 """
-import argparse, json, re, sys, urllib.request
+import argparse, json, re, sys, urllib.request, os
 
-B = "http://127.0.0.1:8000"
-SOURCES = ["58bc7b83-b218-4b00-999a-476fc63b693d", "33d07ae2-5c2b-427a-bbb0-38012b9fa547"]
+B = os.environ.get("TUNARR_URL", "http://127.0.0.1:8000")
+# Tunarr filler-list ids holding your commercial clips (comma-separated). Find them with GET /api/filler-lists.
+SOURCES = [s for s in os.environ.get("COMMERCIAL_LISTS", "").split(",") if s]
 RULES = {
     "Preschool breaks": r"nick-jr|/disney/|/toys/",
     "Cartoon breaks": r"/nick-90s/|/more/nick/(?!nick-jr)|/more/fox/|/more/wb/|/more/cn/|/toys/",
@@ -27,6 +28,8 @@ def api(path, body=None, method=None):
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--dry-run", action="store_true"); a = ap.parse_args()
+    if not SOURCES:
+        sys.exit("set COMMERCIAL_LISTS to the Tunarr filler-list id(s) that hold your commercials")
     clips = {}
     for src in SOURCES:
         for x in api(f"/api/filler-lists/{src}/programs"):

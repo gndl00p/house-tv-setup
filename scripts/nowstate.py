@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Show what each channel is airing right now (content vs commercial gap) and seconds left."""
-import json, time, urllib.request
-B = "http://127.0.0.1:8000"; g = lambda p: json.load(urllib.request.urlopen(B + p, timeout=200))
+import json, time, urllib.request, os
+B = os.environ.get("TUNARR_URL", "http://127.0.0.1:8000"); g = lambda p: json.load(urllib.request.urlopen(B + p, timeout=200))
 now = time.time() * 1000
 for c in sorted(g("/api/channels"), key=lambda c: c["number"]):
     d = g(f"/api/channels/{c['id']}/programming")

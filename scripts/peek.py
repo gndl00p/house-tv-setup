@@ -3,7 +3,7 @@
 import os
 import json, sys, urllib.request, datetime, collections
 from zoneinfo import ZoneInfo
-B = "http://127.0.0.1:8000"; g = lambda p: json.load(urllib.request.urlopen(B + p, timeout=200))
+B = os.environ.get("TUNARR_URL", "http://127.0.0.1:8000"); g = lambda p: json.load(urllib.request.urlopen(B + p, timeout=200))
 CT = ZoneInfo(os.environ.get("HOUSE_TZ", "America/Chicago"))
 num, wd, h0, h1 = map(int, sys.argv[1:5])
 c = [c for c in g("/api/channels") if c["number"] == num][0]

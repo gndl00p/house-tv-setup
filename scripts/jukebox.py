@@ -103,7 +103,7 @@ def apply(base, number, lineup, now, force=False):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--tunarr", default="http://127.0.0.1:8000")
+    ap.add_argument("--tunarr", default=os.environ.get("TUNARR_URL", "http://127.0.0.1:8000"))
     ap.add_argument("--only", default="13,15")
     ap.add_argument("--seed", type=int)
     ap.add_argument("--dry-run", action="store_true")

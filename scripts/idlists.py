@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Create/refresh per-channel station-ID filler lists from the "Station IDs" local source
 and record their ids in channels.json (build.py adds them to each channel's breaks)."""
-import json, re, urllib.request
+import json, re, urllib.request, os
 
-B = "http://127.0.0.1:8000"
+B = os.environ.get("TUNARR_URL", "http://127.0.0.1:8000")
 
 
 def api(path, body=None, method=None):

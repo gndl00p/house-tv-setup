@@ -11,7 +11,7 @@ import argparse, concurrent.futures as cf, hashlib, json, os, re, subprocess, sy
 PLEX = "http://127.0.0.1:32400"
 PREFS = "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Preferences.xml"
 OUT = os.environ.get("JUKEBOX_OUT", "/mnt/media/Plex/Jukebox")
-CACHE = "/opt/house-tv/jukebox/cache"
+CACHE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cache")
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 FONT_REG = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 MIN_MS, MAX_MS = 75_000, 15 * 60_000

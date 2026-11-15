@@ -1,10 +1,10 @@
 """Set the on-screen channel badge (Tunarr watermark) on one or all channels.
 usage: badge.py <channel-number|all> [height_pct]
 Badge height is constant across channels; width % is derived from each PNG's aspect."""
-import json, sys, urllib.request
+import json, sys, urllib.request, os
 from PIL import Image
-B = "http://127.0.0.1:8000"
-ART = "/home/gndl00p/code/house-tv/art/v4"
+B = os.environ.get("TUNARR_URL", "http://127.0.0.1:8000")
+ART = os.path.join(os.environ.get("HOUSE_TV_ART", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "art")), "v4")
 SLUG = {2: "yard", 3: "castle", 4: "couch", 5: "shop", 6: "family", 7: "little", 8: "late", 9: "hearth", 10: "bridge", 11: "den", 12: "clubhouse", 13: "jukebox", 14: "weather", 15: "stage", 16: "northpole"}
 target, hpct = sys.argv[1], float(sys.argv[2]) if len(sys.argv) > 2 else 10.0
 for c in json.load(urllib.request.urlopen(f"{B}/api/channels", timeout=10)):

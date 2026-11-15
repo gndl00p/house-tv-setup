@@ -2,7 +2,7 @@
 """Render station-ID clips per channel: a 5s card in the channel color with a three-note
 chime (quiet version) and the same card with a voiced "You're watching ..." line.
 
-usage: ~/code/ai/claude-voice/.venv/bin/python idents.py [--voice am_michael]
+usage: python idents.py   (needs pillow, soundfile, kokoro-onnx; KOKORO_MODELS=<dir with kokoro-v1.0.onnx + voices-v1.0.bin>) [--voice am_michael]
 Output: art/idents/id-<N>-<slug>-chime.mp4 and id-<N>-<slug>-voice.mp4
 """
 import argparse, os, subprocess, sys, tempfile
@@ -10,9 +10,9 @@ from PIL import Image, ImageDraw, ImageFont
 import soundfile as sf
 from kokoro_onnx import Kokoro
 
-MODELS = "/home/gndl00p/code/ai/claude-voice/models"
+MODELS = os.environ.get("KOKORO_MODELS", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "models"))
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-OUT = "/home/gndl00p/code/house-tv/art/idents"
+OUT = os.path.join(os.environ.get("HOUSE_TV_ART", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "art")), "idents")
 CHANNELS = [  # number, slug, on-card name, spoken name, bg, fg
     (2, "yard", "THE YARD", "The Yard", "#1f6a3a", "#ffffff"),
     (3, "castle", "THE CASTLE", "The Castle", "#793c8a", "#ffffff"),
