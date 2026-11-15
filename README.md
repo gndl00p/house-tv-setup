@@ -73,6 +73,7 @@ Most settings live in `house.env` and `channels.json`. These don't yet, so grep 
 
 - [docs/REPLICATE.md](docs/REPLICATE.md) is the build guide
 - [docs/CHANNELS.md](docs/CHANNELS.md) is every field in `channels.json`
+- [docs/SCRIPTS.md](docs/SCRIPTS.md) is what every script does, including the ones for checking on things
 
 ## What was left out on purpose
 
@@ -80,13 +81,13 @@ Most settings live in `house.env` and `channels.json`. These don't yet, so grep 
 - Playback cursors (`cursors.json`), which are where each series left off
 - The server address, hostname, and anything used to shell into it
 - WeatherStar add-on screens for one home airport and a few family cities
-- Station-ID videos and channel art. `scripts/art.py` and `scripts/idents.py` are how those get made
+- Station-ID videos and channel art. The scripts that make them are here; the output, fonts, and voice model are not
 
 The Plex token is not in git. Scripts read it from Plex's `Preferences.xml` on the server at runtime.
 
 ## What you need
 
-- A Linux machine that already runs Plex Media Server, with Plex Pass (Live TV / DVR), Docker, ffmpeg, and Python 3.11 or newer. The Python is stdlib only
+- A Linux machine that already runs Plex Media Server, with Plex Pass (Live TV / DVR), Docker, ffmpeg, and Python 3.11 or newer. The core is stdlib only; the optional art scripts need Pillow and a TTS model (see [docs/SCRIPTS.md](docs/SCRIPTS.md))
 - Tunarr on that same machine, pointed at Plex. Written against Tunarr 2026.10.1
 - Plex libraries named `TV Shows` and `Movies`. The jukebox also looks for `Jukebox`, `Music Videos Concerts`, and a music library named `Music`
 - A Plex client. This house uses Rokus

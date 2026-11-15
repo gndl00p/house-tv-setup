@@ -42,6 +42,32 @@ In `channels.json`, replace `Your Kids Show`, `Your Sitcom`, and `Your Movie` wi
 
 `house.env` is gitignored. Do not commit it.
 
+### Settings in `house.env`
+
+| Variable | Default | What it is |
+|---|---|---|
+| `TUNARR_PUBLIC` | `http://127.0.0.1:8000` | Tunarr as your TVs reach it. Must be a LAN address |
+| `HOUSE_TZ` | `America/Chicago` | Your time zone. Dayparts, the nightly run, and the phone page use it |
+| `ZIP_CODE` | `10001` | Weather channel location |
+| `WEATHER_GUIDE_BLURB` | | Description on the weather channel's guide entry |
+| `TUNARR_URL` | `http://127.0.0.1:8000` | Tunarr as this machine reaches it |
+| `PLEX_DVR_ID` | first DVR | Which Plex DVR to use, if you have more than one |
+| `PLEX_MUSIC_NAME`, `PLEX_MUSIC_SECTION` | `Music` | Music library for the jukebox renderer |
+| `JUKEBOX_OUT` | `/mnt/media/Plex/Jukebox` | Where rendered song videos go |
+| `JUKEBOX_SKIP_ARTISTS` | | `\|`-separated artists the renderer ignores |
+| `COMMERCIAL_LISTS` | | Tunarr filler-list ids holding your commercials, for `pools.py` |
+| `HOUSE_TV_ART`, `KOKORO_MODELS` | `art/`, `models/` | Only for the art scripts |
+
+### Running scripts by hand
+
+The systemd units load `house.env` for you. Your shell does not, so load it first or the scripts fall back to the defaults above (wrong time zone is the usual symptom):
+
+```bash
+cd /opt/house-tv && set -a && . ./house.env && set +a
+```
+
+[SCRIPTS.md](SCRIPTS.md) lists what every script does.
+
 ## 4. Build a lineup
 
 From `/opt/house-tv`, against Tunarr on this machine:
@@ -70,6 +96,8 @@ sudo systemctl enable --now house-tv.service
 
 - `http://<lan-address>:8001/` is the phone page. It refreshes once a minute.
 - `http://127.0.0.1:8001/xmltv.xml` is the guide Plex should use.
+
+If the host runs a firewall, the LAN needs 8001 (phone page) and 8000 (Tunarr, for streams and guide art). The weather capture on 9798 stays on localhost.
 
 The proxy fetches Tunarr's XMLTV and rewrites channel ids from `C4.1.tunarr.com` to `house4`. Plex drops a guide source whose ids contain extra dots, which is the whole reason this process exists. It also fills in category and description on music items, because Plex will not tune a program it cannot classify. The weather channel is appended here as channel 14, one hour at a time.
 
@@ -181,3 +209,11 @@ docker restart tunarr
 - Editing the shared Default transcode config from a script. Loudness processing lives there; a casual PUT wipes it.
 - Scheduling a file Tunarr imported before Plex had finished analyzing it. Duration comes back empty and the item is skipped. Analyze, wait, rescan.
 - Publishing `channels.json` from a real house. It is a catalog of the library. This template ships placeholders for that reason.
+
+## Upgrading from an older copy
+
+`assignments.json` and `state.json` used to be written to `scripts/`. They now live next to `channels.json`. Move them up a folder before the next nightly run, or every title gets auto-filed again:
+
+```bash
+cd /opt/house-tv && for f in assignments.json state.json; do [ -f scripts/$f ] && mv -n scripts/$f .; done
+```
