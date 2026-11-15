@@ -1,0 +1,17 @@
+[Unit]
+Description=House TV guide proxy, weather tuner, and what's-on page
+After=network-online.target docker.service
+
+[Service]
+EnvironmentFile=-/opt/house-tv/house.env
+ExecStart=/usr/bin/python3 -u /opt/house-tv/service/housetv.py
+Restart=always
+RestartSec=5
+DynamicUser=yes
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

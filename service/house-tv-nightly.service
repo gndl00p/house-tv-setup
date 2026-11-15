@@ -1,0 +1,10 @@
+[Unit]
+Description=House TV nightly upkeep (scan, auto-assign, rebuild changed channels, jukebox, guide reload)
+After=docker.service house-tv.service
+
+[Service]
+Type=oneshot
+EnvironmentFile=-/opt/house-tv/house.env
+ExecStart=/usr/bin/python3 -u /opt/house-tv/scripts/nightly.py
+StandardOutput=append:/var/log/house-tv-nightly.log
+StandardError=append:/var/log/house-tv-nightly.log

@@ -1,0 +1,42 @@
+[
+ {
+  "Name": "New York",
+  "Latitude": 40.7128,
+  "Longitude": -74.006,
+  "point": {
+   "x": 33,
+   "y": 42,
+   "wfo": "OKX"
+  }
+ },
+ {
+  "Name": "Chicago",
+  "Latitude": 41.8781,
+  "Longitude": -87.6298,
+  "point": {
+   "x": 76,
+   "y": 73,
+   "wfo": "LOT"
+  }
+ },
+ {
+  "Name": "Denver",
+  "Latitude": 39.7392,
+  "Longitude": -104.9903,
+  "point": {
+   "x": 63,
+   "y": 62,
+   "wfo": "BOU"
+  }
+ },
+ {
+  "Name": "Los Angeles",
+  "Latitude": 34.0522,
+  "Longitude": -118.2437,
+  "point": {
+   "x": 155,
+   "y": 45,
+   "wfo": "LOX"
+  }
+ }
+]

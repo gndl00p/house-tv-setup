@@ -1,0 +1,9 @@
+[Unit]
+Description=Keep the Plex guide in step with the lineups (every 30 min)
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=30min
+
+[Install]
+WantedBy=timers.target

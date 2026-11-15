@@ -1,0 +1,6 @@
+[Unit]
+Description=House TV guide refresh (Tunarr XMLTV -> house-tv proxy -> Plex reload)
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /opt/house-tv/service/guide_refresh.sh

@@ -1,0 +1,83 @@
+{
+  "defaults": {
+    "padMs": 1800000,
+    "maxDays": 60,
+    "cap": 0.2,
+    "cooldownMs": 10800000,
+    "maxRepeats": 3,
+    "fillerRepeatCooldownMs": 1800000,
+    "timeZoneOffset": 360
+  },
+  "template_channel": 4,
+  "skip_shows": [],
+  "skip_movies": [],
+  "pools": {},
+  "ident_lists": {},
+  "seasonal": {
+    "10": {
+      "name": "Halloween",
+      "episodes": "hallowe|treehouse of horror|haunt|spook|pumpkin|trick or treat",
+      "share": 0.12,
+      "movieGenres": ["Horror"],
+      "skip": []
+    },
+    "12": {
+      "name": "Christmas",
+      "episodes": "christmas|xmas|santa|noel|grinch|nutcracker",
+      "share": 0.18,
+      "skip": []
+    }
+  },
+  "channels": [
+    {
+      "number": 2,
+      "name": "Kids",
+      "slug": "kids",
+      "filler": "none",
+      "shows": ["Your Kids Show"],
+      "maxRepeats": 6,
+      "dayparts": [
+        {
+          "days": "sat",
+          "start": "07:00",
+          "end": "11:00",
+          "shows": ["Your Kids Show"],
+          "fixed": { "07:00": "Your Kids Show" }
+        },
+        {
+          "days": "all",
+          "start": "00:00",
+          "end": "23:59",
+          "shows": ["Your Kids Show"]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "name": "The Couch",
+      "slug": "couch",
+      "filler": "none",
+      "shows": ["Your Sitcom"]
+    },
+    {
+      "number": 8,
+      "name": "Late Movie",
+      "slug": "late",
+      "filler": "none",
+      "movieShare": 1.0,
+      "shows": [],
+      "padMs": 900000
+    },
+    {
+      "number": 13,
+      "name": "The Jukebox",
+      "slug": "jukebox",
+      "filler": "none",
+      "kind": "settings",
+      "shows": []
+    }
+  ],
+  "movies": {
+    "8": ["Your Movie"]
+  }
+}

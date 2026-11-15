@@ -1,0 +1,37 @@
+# Weather channel: WeatherStar 4000+ (ws4kp) captured to MPEG-TS by ws4channels.
+# Stream stays on localhost. service/housetv.py is what Plex tunes.
+# Set ZIP_CODE and HOUSE_TZ in /opt/house-tv/house.env (setup.sh loads it).
+services:
+  ws4kp:
+    build:
+      context: ./ws4kp
+    image: house-tv/ws4kp:7.1.6-travel
+    container_name: ws4kp
+    restart: unless-stopped
+    environment:
+      WSQS_travel: "true"
+      WSQS_speed_select: "1.25"
+      WSQS_almanac: "true"
+      WSQS_hazards: "true"
+      WSQS_hourly: "true"
+  ws4channels:
+    image: ghcr.io/rice9797/ws4channels:latest
+    container_name: ws4channels
+    restart: unless-stopped
+    depends_on: [ws4kp]
+    mem_limit: 1100m
+    cpus: 2.0
+    ports:
+      - "127.0.0.1:9798:9798"
+    volumes:
+      # symlink -> music/regular, or music/holiday in December (nightly flips it)
+      - ./music/active:/app/music:ro
+    environment:
+      ZIP_CODE: "${ZIP_CODE:-10001}"
+      WS4KP_HOST: ws4kp
+      WS4KP_PORT: "8080"
+      FRAME_RATE: "5"
+      VIEW_MODE: wide
+      CHANNEL_NUMBER: "14"
+      SHUFFLE_MUSIC: "true"
+      TZ: "${HOUSE_TZ:-America/Chicago}"
